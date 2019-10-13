@@ -59,6 +59,8 @@ public class PdfConverter implements Runnable {
     @Override
     public void run() {
         mWebView = new WebView(mContext);
+        WebSettings webSettings = mWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -79,6 +81,7 @@ public class PdfConverter implements Runnable {
 
                                 PDDocument myDocument = PDDocument.load(mPdfFile);
                                 int pagesToBePrinted = myDocument.getNumberOfPages();
+                                myDocument.close();
 
                                 mResultMap.putString("filePath", mPdfFile.getAbsolutePath());
                                 mResultMap.putString("numberOfPages", String.valueOf(pagesToBePrinted));
